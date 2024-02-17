@@ -14,6 +14,7 @@ app.post("/checkout", async function (req, res) {
     });
   }
   let total = 0;
+  let freight = 0;
   const productsIds: number[] = [];
   for (const item of req.body.items) {
     if (productsIds.some((idProduct) => idProduct === item.idProduct)) {
@@ -33,6 +34,10 @@ app.post("/checkout", async function (req, res) {
         });
       }
       total += parseFloat(product.price) * item.quantity;
+      const volume =
+        (product.width / 100) * (product.height / 100) * (product.length / 100);
+      const density = product.weight / volume;
+      freight += 1000 * volume * (density / 100);
     } else {
       return res.status(422).json({
         message: "Product not found",
@@ -49,6 +54,7 @@ app.post("/checkout", async function (req, res) {
       total -= (total * coupon.percentage) / 100;
     }
   }
+  total += freight;
   res.json({
     total,
   });
