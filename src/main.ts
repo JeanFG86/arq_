@@ -20,6 +20,11 @@ app.post("/checkout", async function (req, res) {
       [item.idProduct]
     );
     if (product) {
+      if (item.quantity <= 0) {
+        return res.status(422).json({
+          message: "Quantity must be positive",
+        });
+      }
       total += parseFloat(product.price) * item.quantity;
     } else {
       return res.status(422).json({
