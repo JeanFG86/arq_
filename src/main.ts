@@ -14,7 +14,14 @@ app.post("/checkout", async function (req, res) {
     });
   }
   let total = 0;
+  const productsIds: number[] = [];
   for (const item of req.body.items) {
+    if (productsIds.some((idProduct) => idProduct === item.idProduct)) {
+      return res.status(422).json({
+        message: "Duplicated product",
+      });
+    }
+    productsIds.push(item.idProduct);
     const [product] = await connection.query(
       "select * from jg.product where id_product = $1",
       [item.idProduct]

@@ -69,7 +69,7 @@ test("Deve fazer um pedido com 3 produtos com cupom de desconto expirado", async
   expect(output.total).toBe(6090);
 });
 
-test("Deve fazer um pedido com quantidade negativa", async function () {
+test("Não deve fazer um pedido com quantidade negativa", async function () {
   const input = {
     cpf: "987.654.321-00",
     items: [{ idProduct: 1, quantity: -3 }],
@@ -78,4 +78,18 @@ test("Deve fazer um pedido com quantidade negativa", async function () {
   expect(response.status).toBe(422);
   const output = response.data;
   expect(output.message).toBe("Quantity must be positive");
+});
+
+test("Não deve fazer um pedido com produtos duplicados", async function () {
+  const input = {
+    cpf: "987.654.321-00",
+    items: [
+      { idProduct: 1, quantity: 1 },
+      { idProduct: 1, quantity: 1 },
+    ],
+  };
+  const response = await axios.post("http://localhost:3000/checkout", input);
+  expect(response.status).toBe(422);
+  const output = response.data;
+  expect(output.message).toBe("Duplicated product");
 });
