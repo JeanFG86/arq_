@@ -32,7 +32,8 @@ app.post("/checkout", async function (req, res) {
       "select * from jg.coupon where code = $1",
       [req.body.coupon]
     );
-    if (coupon) {
+    const today = new Date();
+    if (coupon && coupon.expire_date.getTime() > today.getTime()) {
       total -= (total * coupon.percentage) / 100;
     }
   }
