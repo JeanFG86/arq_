@@ -10,7 +10,7 @@ create table jg.product (
 	width integer,
 	height integer,
 	length integer,
-	weight integer
+	weight numeric
 );
 
 insert into jg.product (id_product, description, price, width, height, length, weight) values (1, 'A', 1000, 100, 30, 10, 3);
