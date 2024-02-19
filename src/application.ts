@@ -1,7 +1,7 @@
 import { validate } from "./CpfValidator";
 import pgp from "pg-promise";
 
-export async function checout(input: Input) {
+export async function checkout(input: Input) {
   const connection = pgp()("postgres://postgres:123456@localhost:5432/app");
   const isValid = validate(input.cpf);
   if (!isValid) {
