@@ -1,11 +1,19 @@
 import amqp from "amqplib";
+import { checkout } from "./application";
 
 async function init() {
   const connectionQueue = await amqp.connect("amqp://localhost");
   const channel = await connectionQueue.createChannel();
   await channel.assertQueue("checkout", { durable: true });
   await channel.consume("checkout", async function (msg: any) {
-    channel.ack(msg.content.toString());
+    const input = JSON.parse(msg.content.toString());
+    try {
+      const output = await checkout(input);
+      console.log(output);
+    } catch (error: any) {
+      console.log(error.message);
+    }
+    channel.ack(msg);
   });
 }
 

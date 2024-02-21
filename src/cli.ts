@@ -1,3 +1,5 @@
+import { checkout } from "./application";
+
 const input: any = {
   items: [],
 };
@@ -13,5 +15,12 @@ process.stdin.on("data", async function (chunk) {
     const [idProduct, quantity] = params.split(" ");
     input.items.push({ idProduct, quantity });
   }
-  console.log(input);
+  if (command.startsWith("checkout")) {
+    try {
+      const output = await checkout(input);
+      console.log(output);
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  }
 });
