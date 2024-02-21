@@ -1,8 +1,7 @@
 import { validate } from "./CpfValidator";
-import pgp from "pg-promise";
+import { getCoupon, getProduct } from "./resource";
 
 export async function checkout(input: Input) {
-  const connection = pgp()("postgres://postgres:123456@localhost:5432/app");
   const isValid = validate(input.cpf);
   if (!isValid) {
     throw new Error("Invalid cpf");
@@ -15,10 +14,7 @@ export async function checkout(input: Input) {
       throw new Error("Duplicated product");
     }
     productsIds.push(item.idProduct);
-    const [product] = await connection.query(
-      "select * from jg.product where id_product = $1",
-      [item.idProduct]
-    );
+    const product = await getProduct(item.idProduct);
     if (product) {
       if (item.quantity <= 0) {
         throw new Error("Quantity must be positive");
@@ -34,11 +30,8 @@ export async function checkout(input: Input) {
     }
   }
   if (input.coupon) {
-    const [coupon] = await connection.query(
-      "select * from jg.coupon where code = $1",
-      [input.coupon]
-    );
     const today = new Date();
+    const coupon = await getCoupon(input.coupon);
     if (coupon && coupon.expire_date.getTime() > today.getTime()) {
       total -= (total * coupon.percentage) / 100;
     }
