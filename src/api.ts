@@ -1,12 +1,12 @@
 import express from "express";
-import { checkout } from "./Checkout";
+import { execute } from "./Checkout";
 const app = express();
 app.use(express.json());
 
 app.post("/checkout", async function (req, res) {
   const input = req.body;
   try {
-    const output = await checkout(input);
+    const output = await execute(input);
     res.json(output);
   } catch (error: any) {
     res.status(422).json({

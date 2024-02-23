@@ -1,4 +1,6 @@
-import { checkout } from "../src/Checkout";
+import Checkout from "../src/Checkout";
+import CouponDataDatabase from "../src/CouponDataDatabase";
+import ProductDataDatabase from "../src/ProductDataDatabase";
 
 describe("", () => {
   test("Deve fazer um pedido com 3 produtos", async function () {
@@ -10,7 +12,10 @@ describe("", () => {
         { idProduct: 3, quantity: 3 },
       ],
     };
-    const output = await checkout(input);
+    const productData = new ProductDataDatabase();
+    const couponData = new CouponDataDatabase();
+    const checkout = new Checkout(productData, couponData);
+    const output = await checkout.execute(input);
     expect(output.total).toBe(6350);
   });
 });
