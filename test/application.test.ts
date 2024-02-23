@@ -1,4 +1,4 @@
-import { checkout } from "../src/application";
+import { checkout } from "../src/Checkout";
 
 describe("", () => {
   test("Deve fazer um pedido com 3 produtos", async function () {

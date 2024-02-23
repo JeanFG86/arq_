@@ -1,4 +1,4 @@
-import { checkout } from "./application";
+import { checkout } from "./Checkout";
 
 const input: any = {
   items: [],

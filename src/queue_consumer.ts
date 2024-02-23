@@ -1,5 +1,5 @@
 import amqp from "amqplib";
-import { checkout } from "./application";
+import { checkout } from "./Checkout";
 
 async function init() {
   const connectionQueue = await amqp.connect("amqp://localhost");
