@@ -69,7 +69,7 @@ test("Deve fazer um pedido com 3 produtos com cupom de desconto expirado", async
   expect(output.total).toBe(6350);
 });
 
-test("Não deve fazer um pedido com quantidade negativa", async function () {
+test("Deve fazer um pedido com quantidade negativa", async function () {
   const input = {
     cpf: "987.654.321-00",
     items: [{ idProduct: 1, quantity: -3 }],
@@ -80,7 +80,7 @@ test("Não deve fazer um pedido com quantidade negativa", async function () {
   expect(output.message).toBe("Quantity must be positive");
 });
 
-test("Não deve fazer um pedido com produtos duplicados", async function () {
+test("Deve fazer um pedido com quantidade negativa", async function () {
   const input = {
     cpf: "987.654.321-00",
     items: [
