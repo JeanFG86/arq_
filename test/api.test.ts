@@ -31,7 +31,7 @@ test("Deve fazer um pedido com 3 produtos", async function () {
 test("Não deve fazer pedido com produto que não existe", async function () {
   const input = {
     cpf: "987.654.321-00",
-    items: [{ idProduct: 4, quantity: 1 }],
+    items: [{ idProduct: 5, quantity: 1 }],
   };
   const response = await axios.post("http://localhost:3000/checkout", input);
   expect(response.status).toBe(422);
