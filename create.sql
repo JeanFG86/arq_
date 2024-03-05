@@ -1,5 +1,7 @@
 drop table jg.product;
 drop table jg.coupon;
+drop table jg.item;
+drop table jg.order;
 drop schema jg;
 
 create schema jg;
@@ -27,3 +29,25 @@ create table jg.coupon (
 
 insert into jg.coupon (code, percentage, expire_date) values ('VALE20', 20, '2024-04-01T10:00:00');
 insert into jg.coupon (code, percentage, expire_date) values ('VALE20_EXPIRED', 20, '2024-02-01T10:00:00');
+
+create table jg.order (
+	id_order serial primary key,
+	coupon_code text,
+	coupon_percentage numeric,
+	code text,
+	cpf text,
+	email text,
+	issue_date timestamp,
+	freight numeric,
+	total numeric,
+	sequence integer
+);
+
+create table jg.item (
+	id_order integer references jg.order (id_order),
+	id_product integer references jg.product (id_product),
+	price numeric,
+	quantity integer,
+	primary key (id_order, id_product)
+);
+
