@@ -1,6 +1,6 @@
+drop table jg.item;
 drop table jg.product;
 drop table jg.coupon;
-drop table jg.item;
 drop table jg.order;
 drop schema jg;
 
