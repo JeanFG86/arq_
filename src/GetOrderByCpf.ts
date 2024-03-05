@@ -7,7 +7,7 @@ export default class GetOrderByCpf {
     const order = await this.orderData.getByCpf(cpf);
 
     return {
-      total: order.total,
+      total: parseFloat(order.total),
     };
   }
 }

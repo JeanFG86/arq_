@@ -8,7 +8,8 @@ describe("GetOrder Tests", () => {
   it("Deve consultar um pedido", async () => {
     const productData = new ProductDataDatabase();
     const couponData = new CouponDataDatabase();
-    const checkout = new Checkout(productData, couponData);
+    const orderData = new OrderDataDatabase();
+    const checkout = new Checkout(productData, couponData, orderData);
     const input = {
       cpf: "987.654.321-00",
       items: [
@@ -18,7 +19,6 @@ describe("GetOrder Tests", () => {
       ],
     };
     await checkout.execute(input);
-    const orderData = new OrderDataDatabase();
     const getOrderByCpf = new GetOrderByCpf(orderData);
     const output = await getOrderByCpf.execute("987.654.321-00");
     expect(output.total).toBe(6350);

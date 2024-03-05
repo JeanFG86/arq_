@@ -5,6 +5,7 @@ import ProductData from "../src/ProductData";
 import CurrencyGateway from "../src/CurrencyGatewayRandom";
 import MailerConsole from "../src/MailerConsole";
 import Mailer from "../src/Mailer";
+import OrderData from "../src/OrderData";
 
 describe("", () => {
   test("Deve fazer um pedido com 3 produtos", async function () {
@@ -69,7 +70,11 @@ describe("", () => {
         return coupons[code];
       },
     };
-    const checkout = new Checkout(productData, couponData);
+    const orderData: OrderData = {
+      async save(order: any): Promise<void> {},
+      async getByCpf(cpf: string): Promise<any> {},
+    };
+    const checkout = new Checkout(productData, couponData, orderData);
     const output = await checkout.execute(input);
     expect(output.total).toBe(6350);
   });
@@ -158,7 +163,11 @@ describe("", () => {
         return coupons[code];
       },
     };
-    const checkout = new Checkout(productData, couponData);
+    const orderData: OrderData = {
+      async save(order: any): Promise<void> {},
+      async getByCpf(cpf: string): Promise<any> {},
+    };
+    const checkout = new Checkout(productData, couponData, orderData);
     const output = await checkout.execute(input);
     expect(output.total).toBe(6580);
     expect(mailerSpy.calledOnce).toBeTruthy();
@@ -256,7 +265,11 @@ describe("", () => {
         return coupons[code];
       },
     };
-    const checkout = new Checkout(productData, couponData);
+    const orderData: OrderData = {
+      async save(order: any): Promise<void> {},
+      async getByCpf(cpf: string): Promise<any> {},
+    };
+    const checkout = new Checkout(productData, couponData, orderData);
     const output = await checkout.execute(input);
     expect(output.total).toBe(6580);
     mailerMock.verify();
@@ -356,9 +369,14 @@ describe("", () => {
         log.push({ to, subject, message });
       },
     };
+    const orderData: OrderData = {
+      async save(order: any): Promise<void> {},
+      async getByCpf(cpf: string): Promise<any> {},
+    };
     const checkout = new Checkout(
       productData,
       couponData,
+      orderData,
       currencyGateway,
       mailer
     );
