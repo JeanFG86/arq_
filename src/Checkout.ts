@@ -61,8 +61,13 @@ export default class Checkout {
       this.mailer.send(input.email, "Checkout Success", "ABCDEF");
     }
     total += freight;
+    const today = new Date();
+    const year = today.getFullYear();
+    const sequence = await this.orderData.count();
+    const code = `${year}${new String(sequence + 1).padStart(8, "0")}`;
     await this.orderData.save({ cpf: input.cpf, total });
     return {
+      code,
       total,
     };
   }

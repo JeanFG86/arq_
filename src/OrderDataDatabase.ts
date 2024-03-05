@@ -19,4 +19,14 @@ export default class OrderDataDatabase implements OrderData {
     await connection.$pool.end();
     return orderData;
   }
+
+  async count(): Promise<number> {
+    const connection = pgp()("postgres://postgres:123456@localhost:5432/app");
+    const [options] = await connection.query(
+      "select count(*)::integer as count from jg.order",
+      []
+    );
+    await connection.$pool.end();
+    return options.count;
+  }
 }
