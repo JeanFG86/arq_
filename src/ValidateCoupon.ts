@@ -1,20 +1,15 @@
+import Coupon from "./Coupon";
 import CouponData from "./CouponData";
 
 export default class ValidateCoupon {
   constructor(readonly couponData: CouponData) {}
 
   async execute(code: string, total: number): Promise<Output> {
-    const coupon = await this.couponData.getCoupon(code);
-    const today = new Date();
-    let isExpired = true;
-    let discount = 0;
-    if (coupon && coupon.expire_date.getTime() > today.getTime()) {
-      discount = (total * coupon.percentage) / 100;
-      isExpired = false;
-    }
+    const couponData = await this.couponData.getCoupon(code);
+    const coupon = new Coupon(couponData.code, parseFloat(couponData.percentage), couponData.expire_date);
     return {
-      isExpired,
-      discount,
+      isExpired: coupon.isExpired(),
+      discount: coupon.getDiscount(total),
     };
   }
 }
