@@ -6,7 +6,7 @@ export default class Cpf {
     this.value = value;
   }
 
-  validate(rawCpf: string) {
+  private validate(rawCpf: string) {
     const cleanCpf = rawCpf.replace(/\D/g, "");
     if (this.isInvalidLength(cleanCpf)) return false;
     if (this.allDigitsTheSame(cleanCpf)) return false;
@@ -17,7 +17,7 @@ export default class Cpf {
     return actualDigit === validatedDigit;
   }
 
-  calculateDigit(cpf: string, factor: number) {
+  private calculateDigit(cpf: string, factor: number) {
     let total = 0;
     for (const digit of cpf) {
       if (factor > 1) total += parseInt(digit) * factor--;
@@ -26,16 +26,16 @@ export default class Cpf {
     return rest < 2 ? 0 : 11 - rest;
   }
 
-  isInvalidLength(cpf: string) {
+  private isInvalidLength(cpf: string) {
     return cpf.length !== 11;
   }
 
-  allDigitsTheSame(cpf: string) {
+  private allDigitsTheSame(cpf: string) {
     const [firstDigit] = cpf;
     return [...cpf].every((digit) => digit === firstDigit);
   }
 
-  extractDigits(cpf: string) {
+  private extractDigits(cpf: string) {
     return cpf.slice(9);
   }
 
