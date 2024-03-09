@@ -28,4 +28,11 @@ describe("Order test", () => {
     order.addCoupon(new Coupon("VALE20", 20, new Date("2024-04-01T10:00:00")));
     expect(order.getTotal()).toBe(4872);
   });
+
+  it("Não deve criar um pedido com itens com quantidade negativa", () => {
+    const order = new Order("987.654.321-00");
+    expect(() => order.addItem(new Product(1, "A", 1000, 100, 30, 10, 3), -1)).toThrow(
+      new Error("Quantity must be positive")
+    );
+  });
 });
