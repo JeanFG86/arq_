@@ -14,6 +14,7 @@ export default class Order {
   }
 
   addItem(product: Product, quantity: number) {
+    if (this.items.some((item) => item.idProduct === product.idProduct)) throw new Error("Duplicated product");
     this.items.push(new Item(product.idProduct, product.price, quantity));
   }
 

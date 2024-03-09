@@ -35,4 +35,10 @@ describe("Order test", () => {
       new Error("Quantity must be positive")
     );
   });
+
+  it("Não deve criar um pedido com item duplicado", () => {
+    const order = new Order("987.654.321-00");
+    order.addItem(new Product(1, "A", 1000, 100, 30, 10, 3), 1);
+    expect(() => order.addItem(new Product(1, "A", 1000, 100, 30, 10, 3), 1)).toThrow(new Error("Duplicated product"));
+  });
 });
