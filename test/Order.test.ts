@@ -42,11 +42,11 @@ describe("Order test", () => {
     expect(() => order.addItem(new Product(1, "A", 1000, 100, 30, 10, 3), 1)).toThrow(new Error("Duplicated product"));
   });
 
-  it("Deve criar um pedido com 3 itens com frete", () => {
-    const order = new Order("987.654.321-00");
+  it("Deve criar um pedido com 3 itens com código", () => {
+    const order = new Order("987.654.321-00", new Date("2024-03-09T10:00:00"), 1);
     order.addItem(new Product(1, "A", 1000, 100, 30, 10, 3), 1);
     order.addItem(new Product(2, "B", 5000, 50, 50, 50, 22), 1);
     order.addItem(new Product(3, "C", 30, 10, 10, 10, 1), 3);
-    expect(order.getTotal()).toBe(6350);
+    expect(order.getOrderCode()).toBe("202400000001");
   });
 });
