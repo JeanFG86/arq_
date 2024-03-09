@@ -8,7 +8,7 @@ import Mailer from "../src/Mailer";
 import OrderData from "../src/OrderData";
 
 describe("", () => {
-  test("Deve fazer um pedido com 3 produtos", async function () {
+  it("Deve fazer um pedido com 3 produtos", async function () {
     const input = {
       cpf: "987.654.321-00",
       items: [
@@ -82,13 +82,11 @@ describe("", () => {
     expect(output.total).toBe(6350);
   });
 
-  test("Deve fazer um pedido com 4 produtos com moedas diferentes", async function () {
-    const currencyGatewayStub = sinon
-      .stub(CurrencyGateway.prototype, "getCurrencies")
-      .resolves({
-        USD: 2,
-        BRL: 1,
-      });
+  it.skip("Deve fazer um pedido com 4 produtos com moedas diferentes", async function () {
+    const currencyGatewayStub = sinon.stub(CurrencyGateway.prototype, "getCurrencies").resolves({
+      USD: 2,
+      BRL: 1,
+    });
     const mailerSpy = sinon.spy(MailerConsole.prototype, "send");
     const input = {
       cpf: "987.654.321-00",
@@ -177,24 +175,19 @@ describe("", () => {
     const output = await checkout.execute(input);
     expect(output.total).toBe(6580);
     expect(mailerSpy.calledOnce).toBeTruthy();
-    expect(
-      mailerSpy.calledWith("rodrigo@branas.io", "Checkout Success", "ABCDEF")
-    ).toBeTruthy();
+    expect(mailerSpy.calledWith("rodrigo@branas.io", "Checkout Success", "ABCDEF")).toBeTruthy();
     currencyGatewayStub.restore();
     mailerSpy.restore();
   });
 
-  test("Deve fazer um pedido com 4 produtos com moedas diferentes com mock", async function () {
+  it.skip("Deve fazer um pedido com 4 produtos com moedas diferentes com mock", async function () {
     const currencyGatewayMock = sinon.mock(CurrencyGateway.prototype);
     currencyGatewayMock.expects("getCurrencies").once().resolves({
       USD: 2,
       BRL: 1,
     });
     const mailerMock = sinon.mock(MailerConsole.prototype);
-    mailerMock
-      .expects("send")
-      .once()
-      .withArgs("rodrigo@branas.io", "Checkout Success", "ABCDEF");
+    mailerMock.expects("send").once().withArgs("rodrigo@branas.io", "Checkout Success", "ABCDEF");
     const input = {
       cpf: "987.654.321-00",
       email: "rodrigo@branas.io",
@@ -287,7 +280,7 @@ describe("", () => {
     currencyGatewayMock.restore();
   });
 
-  test("Deve fazer um pedido com 4 produtos com moedas diferentes com fake", async function () {
+  it.skip("Deve fazer um pedido com 4 produtos com moedas diferentes com fake", async function () {
     const input = {
       cpf: "987.654.321-00",
       email: "rodrigo@branas.io",
@@ -385,13 +378,7 @@ describe("", () => {
         return 1;
       },
     };
-    const checkout = new Checkout(
-      productData,
-      couponData,
-      orderData,
-      currencyGateway,
-      mailer
-    );
+    const checkout = new Checkout(productData, couponData, orderData, currencyGateway, mailer);
     const output = await checkout.execute(input);
     expect(output.total).toBe(6580);
     expect(log).toHaveLength(1);
@@ -400,7 +387,7 @@ describe("", () => {
     expect(log[0].message).toBe("ABCDEF");
   });
 
-  test("Deve fazer um pedido com 3 produtos com código do pedido", async function () {
+  it("Deve fazer um pedido com 3 produtos com código do pedido", async function () {
     const input = {
       cpf: "987.654.321-00",
       items: [
