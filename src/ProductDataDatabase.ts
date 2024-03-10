@@ -15,7 +15,8 @@ export default class ProductDataDatabase implements ProductData {
       productData.width,
       productData.height,
       productData.length,
-      productData.weight
+      productData.weight,
+      productData.currency
     );
   }
 }
