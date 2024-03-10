@@ -1,4 +1,3 @@
-import Coupon from "./Coupon";
 import CouponData from "./CouponData";
 
 export default class ValidateCoupon {
