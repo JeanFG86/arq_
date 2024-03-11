@@ -1,4 +1,4 @@
-import Coupon from "../src/Coupon";
+import Coupon from "../src/domain/entities/Coupon";
 
 describe("Coupon test", () => {
   it("Deve testar o cupon", async () => {

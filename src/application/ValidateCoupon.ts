@@ -1,4 +1,4 @@
-import CouponData from "./CouponData";
+import CouponData from "../domain/data/CouponData";
 
 export default class ValidateCoupon {
   constructor(readonly couponData: CouponData) {}

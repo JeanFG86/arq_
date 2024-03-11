@@ -1,4 +1,4 @@
-import FreightCalculator from "../src/FreightCalculator";
+import FreightCalculator from "../src/domain/entities/FreightCalculator";
 
 describe("Freight Calculator test", () => {
   it("Deve calcular o frete", () => {
