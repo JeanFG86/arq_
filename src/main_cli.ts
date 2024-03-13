@@ -14,3 +14,5 @@ const checkout = new Checkout(productData, couponData, orderData);
 const handler = new CLIHandler();
 new CLIController(handler, checkout);
 handler.type("set-cpf 111.111.111-11");
+handler.type("add-item 1 1");
+handler.type("checkout");

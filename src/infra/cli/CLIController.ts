@@ -11,5 +11,11 @@ export default class CLIController {
       input.cpf = params;
       console.log(input);
     });
+
+    handler.on("add-item", function (params: string) {
+      const [idProduct, quantity] = params.split(" ");
+      input.items.push({ idProduct: parseInt(idProduct), quantity: parseInt(quantity) });
+      console.log(input);
+    });
   }
 }
