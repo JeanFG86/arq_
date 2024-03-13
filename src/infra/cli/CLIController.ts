@@ -17,5 +17,10 @@ export default class CLIController {
       input.items.push({ idProduct: parseInt(idProduct), quantity: parseInt(quantity) });
       console.log(input);
     });
+
+    handler.on("checkout", async function (params: string) {
+      const output = await checkout.execute(input);
+      console.log(output);
+    });
   }
 }
