@@ -17,7 +17,8 @@ export default class CLIController {
     });
 
     handler.on("checkout", async function (params: string) {
-      await checkout.execute(input);
+      const output = await checkout.execute(input);
+      handler.write(JSON.stringify(output));
     });
   }
 }
