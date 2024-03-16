@@ -1,4 +1,4 @@
-import { validate } from "../src/domain/entities/CpfValidator";
+import { validate } from "../../src/domain/entities/CpfValidator";
 
 const validCpfs = ["987.654.321-00", "714.602.380-01", "313.030.210-72", "144.796.170-60"];
 

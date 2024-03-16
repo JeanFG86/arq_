@@ -1,4 +1,4 @@
-import Product from "../src/domain/entities/Product";
+import Product from "../../src/domain/entities/Product";
 
 describe("Product test", () => {
   it("Deve calcular o volume do produto", () => {

@@ -1,6 +1,6 @@
-import Coupon from "../src/domain/entities/Coupon";
-import Order from "../src/domain/entities/Order";
-import Product from "../src/domain/entities/Product";
+import Coupon from "../../src/domain/entities/Coupon";
+import Order from "../../src/domain/entities/Order";
+import Product from "../../src/domain/entities/Product";
 
 describe("Order test", () => {
   it("Deve criar um pedido vazio com CPF válido", () => {

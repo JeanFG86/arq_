@@ -1,11 +1,11 @@
-import Checkout from "../src/application/Checkout";
-import CouponDataDatabase from "../src/infra/data/CouponDataDatabase";
-import OrderDataDatabase from "../src/infra/data/OrderDataDatabase";
-import ProductDataDatabase from "../src/infra/data/ProductDataDatabase";
-import PgPromiseConnection from "../src/infra/database/PgPromiseConnection";
-import QueueController from "../src/infra/queue/QueueController";
+import Checkout from "../../src/application/Checkout";
+import CouponDataDatabase from "../../src/infra/data/CouponDataDatabase";
+import OrderDataDatabase from "../../src/infra/data/OrderDataDatabase";
+import ProductDataDatabase from "../../src/infra/data/ProductDataDatabase";
+import PgPromiseConnection from "../../src/infra/database/PgPromiseConnection";
+import QueueController from "../../src/infra/queue/QueueController";
 import sinon from "sinon";
-import QueueMemory from "../src/infra/queue/QueueMemory";
+import QueueMemory from "../../src/infra/queue/QueueMemory";
 
 describe("Queue Test", () => {
   it("Deve testar com a fila", async () => {

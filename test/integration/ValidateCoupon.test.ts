@@ -1,6 +1,6 @@
-import CouponDataDatabase from "../src/infra/data/CouponDataDatabase";
-import ValidateCoupon from "../src/application/ValidateCoupon";
-import PgPromiseConnection from "../src/infra/database/PgPromiseConnection";
+import CouponDataDatabase from "../../src/infra/data/CouponDataDatabase";
+import ValidateCoupon from "../../src/application/ValidateCoupon";
+import PgPromiseConnection from "../../src/infra/database/PgPromiseConnection";
 
 describe("Validate coupon", () => {
   it("Deve validar um cupon de desconto", async () => {

@@ -1,9 +1,9 @@
-import CouponDataDatabase from "../src/infra/data/CouponDataDatabase";
-import GetOrderByCpf from "../src/application/GetOrderByCpf";
-import OrderDataDatabase from "../src/infra/data/OrderDataDatabase";
-import ProductDataDatabase from "../src/infra/data/ProductDataDatabase";
-import Checkout from "../src/application/Checkout";
-import PgPromiseConnection from "../src/infra/database/PgPromiseConnection";
+import CouponDataDatabase from "../../src/infra/data/CouponDataDatabase";
+import GetOrderByCpf from "../../src/application/GetOrderByCpf";
+import OrderDataDatabase from "../../src/infra/data/OrderDataDatabase";
+import ProductDataDatabase from "../../src/infra/data/ProductDataDatabase";
+import Checkout from "../../src/application/Checkout";
+import PgPromiseConnection from "../../src/infra/database/PgPromiseConnection";
 
 describe("GetOrder Tests", () => {
   it("Deve consultar um pedido", async () => {

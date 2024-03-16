@@ -1,13 +1,13 @@
 import sinon from "sinon";
-import CouponData from "../src/domain/data/CouponData";
-import ProductData from "../src/domain/data/ProductData";
-import CurrencyGateway from "../src/infra/gateway/CurrencyGatewayRandom";
-import MailerConsole from "../src/infra/mailer/MailerConsole";
-import Mailer from "../src/infra/mailer/Mailer";
-import OrderData from "../src/domain/data/OrderData";
-import Currencies from "../src/domain/entities/Currencies";
-import Checkout from "../src/application/Checkout";
-import Product from "../src/domain/entities/Product";
+import CouponData from "../../src/domain/data/CouponData";
+import ProductData from "../../src/domain/data/ProductData";
+import CurrencyGateway from "../../src/infra/gateway/CurrencyGatewayRandom";
+import MailerConsole from "../../src/infra/mailer/MailerConsole";
+import Mailer from "../../src/infra/mailer/Mailer";
+import OrderData from "../../src/domain/data/OrderData";
+import Currencies from "../../src/domain/entities/Currencies";
+import Checkout from "../../src/application/Checkout";
+import Product from "../../src/domain/entities/Product";
 
 describe("", () => {
   it("Deve fazer um pedido com 3 produtos", async function () {
