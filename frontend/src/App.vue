@@ -21,13 +21,17 @@ const addItem = function (product: any) {
   }
 };
 
-const deleteItem = function (idProduct: any) {
+const increaseItem = function (idProduct: any) {
   const existingItem = order.items.find((item: any) => item.idProduct === idProduct);
-  if (!existingItem) {
-    return;
-  } else {
-    existingItem.quantity--;
-  }
+  if (!existingItem) return;
+  existingItem.quantity++;
+  console.log("oi");
+};
+
+const decreaseItem = function (idProduct: any) {
+  const existingItem = order.items.find((item: any) => item.idProduct === idProduct);
+  if (!existingItem) return;
+  existingItem.quantity--;
 };
 
 const getTotal = function () {
@@ -58,7 +62,8 @@ const formatMoney = function (amount: number) {
   <div v-for="item in order.items">
     <span class="item-description">{{ getProductById(item.idProduct)?.description }}</span>
     <span class="item-quantity">{{ item.quantity }}</span>
-    <span class="item-delete-button" @click="deleteItem(item.idProduct)">-</span>
+    <button class="item-increase-button" @click="increaseItem(item.idProduct)">+</button>
+    <button class="item-decrease-button" @click="decreaseItem(item.idProduct)">-</button>
   </div>
 </template>
 
