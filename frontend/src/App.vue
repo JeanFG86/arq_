@@ -21,6 +21,15 @@ const addItem = function (product: any) {
   }
 };
 
+const deleteItem = function (idProduct: any) {
+  const existingItem = order.items.find((item: any) => item.idProduct === idProduct);
+  if (!existingItem) {
+    return;
+  } else {
+    existingItem.quantity--;
+  }
+};
+
 const getTotal = function () {
   let total = 0;
   for (const item of order.items) {
@@ -49,6 +58,7 @@ const formatMoney = function (amount: number) {
   <div v-for="item in order.items">
     <span class="item-description">{{ getProductById(item.idProduct)?.description }}</span>
     <span class="item-quantity">{{ item.quantity }}</span>
+    <span class="item-delete-button" @click="deleteItem(item.idProduct)">-</span>
   </div>
 </template>
 
