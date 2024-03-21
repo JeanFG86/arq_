@@ -74,3 +74,11 @@ test("Deve ter um pedido com vários itens e decrementar a quantidade do item do
   expect(wrapper.get(".total").text()).toBe("$0.00");
   expect(wrapper.findAll(".item-quantity").at(0)?.text()).toBeUndefined();
 });
+
+test("Deve confirmar um pedido com 1 item", async () => {
+  const wrapper = mount(AppVue, {});
+  await wrapper.findAll(".product-add-button").at(0)?.trigger("click");
+  await wrapper.get(".confirm").trigger("click");
+  expect(wrapper.get(".message").text()).toBe("Success");
+  expect(wrapper.get(".order-code").text()).toBe("202400000001");
+});
