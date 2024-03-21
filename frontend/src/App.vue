@@ -32,6 +32,9 @@ const decreaseItem = function (idProduct: any) {
   const existingItem = order.items.find((item: any) => item.idProduct === idProduct);
   if (!existingItem) return;
   existingItem.quantity--;
+  if (existingItem.quantity === 0) {
+    order.items.splice(order.items.indexOf(existingItem), 1);
+  }
 };
 
 const getTotal = function () {

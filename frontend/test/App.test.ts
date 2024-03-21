@@ -64,3 +64,13 @@ test("Deve ter um pedido com vários itens e incrementar a quantidade do item do
   expect(wrapper.get(".total").text()).toBe("$3,000.00");
   expect(wrapper.findAll(".item-quantity").at(0)?.text()).toBe("3");
 });
+
+test("Deve ter um pedido com vários itens e decrementar a quantidade do item do pedido e nao permitir que a quantidade seja menor que zero", async () => {
+  const wrapper = mount(AppVue, {});
+
+  await wrapper.findAll(".product-add-button").at(0)?.trigger("click");
+  await wrapper.findAll(".item-decrease-button").at(0)?.trigger("click");
+  await wrapper.findAll(".item-decrease-button").at(0)?.trigger("click");
+  expect(wrapper.get(".total").text()).toBe("$0.00");
+  expect(wrapper.findAll(".item-quantity").at(0)?.text()).toBeUndefined();
+});
