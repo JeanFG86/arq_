@@ -82,3 +82,17 @@ test("Deve confirmar um pedido com 1 item", async () => {
   expect(wrapper.get(".message").text()).toBe("Success");
   expect(wrapper.get(".order-code").text()).toBe("202400000001");
 });
+
+test("Deve ter 4 produtos", async () => {
+  const wrapper = mount(AppVue, {});
+
+  expect(wrapper.get(".title").text()).toBe("Checkout");
+  expect(wrapper.findAll(".product-description").at(0)?.text()).toBe("A");
+  expect(wrapper.findAll(".product-price").at(0)?.text()).toBe("$1,000.00");
+  expect(wrapper.findAll(".product-description").at(1)?.text()).toBe("B");
+  expect(wrapper.findAll(".product-price").at(1)?.text()).toBe("$5,000.00");
+  expect(wrapper.findAll(".product-description").at(2)?.text()).toBe("C");
+  expect(wrapper.findAll(".product-price").at(2)?.text()).toBe("$30.00");
+  expect(wrapper.findAll(".product-description").at(3)?.text()).toBe("D");
+  expect(wrapper.findAll(".product-price").at(3)?.text()).toBe("$1,000.00");
+});
