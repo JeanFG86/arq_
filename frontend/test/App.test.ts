@@ -1,6 +1,14 @@
 import { mount } from "@vue/test-utils";
 import AppVue from "../src/App.vue";
 
+function sleep(time: number) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(true);
+    }, time);
+  });
+}
+
 test("Deve ter um pedido vazio", async () => {
   const wrapper = mount(AppVue, {});
 
@@ -87,6 +95,7 @@ test("Deve ter 4 produtos", async () => {
   const wrapper = mount(AppVue, {});
 
   expect(wrapper.get(".title").text()).toBe("Checkout");
+  await sleep(100);
   expect(wrapper.findAll(".product-description").at(0)?.text()).toBe("A");
   expect(wrapper.findAll(".product-price").at(0)?.text()).toBe("$1,000.00");
   expect(wrapper.findAll(".product-description").at(1)?.text()).toBe("B");
