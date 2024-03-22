@@ -11,6 +11,7 @@ const products = reactive([
 const order = reactive({
   code: "",
   total: 0,
+  cpf: "987.654.321-00",
   items: [] as any,
 });
 
@@ -57,9 +58,12 @@ const formatMoney = function (amount: number) {
   return new Intl.NumberFormat("en-IN", { style: "currency", currency: "USD" }).format(amount);
 };
 
-const confirm = function (order: any) {
+const confirm = async function (order: any) {
+  const response = await axios.post("http://localhost:3000/checkout", order);
+  const orderData = response.data;
   message.value = "Success";
-  order.code = "202400000001";
+  order.code = orderData.code;
+  order.total = orderData.total;
 };
 
 onMounted(async () => {
@@ -86,6 +90,7 @@ onMounted(async () => {
   <button class="confirm" @click="confirm(order)">confirm</button>
   <div class="message">{{ message }}</div>
   <div class="order-code">{{ order.code }}</div>
+  <div class="order-total">{{ order.total }}</div>
 </template>
 
 <style scoped></style>

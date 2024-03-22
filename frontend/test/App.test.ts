@@ -87,8 +87,10 @@ test("Deve confirmar um pedido com 1 item", async () => {
   const wrapper = mount(AppVue, {});
   await wrapper.findAll(".product-add-button").at(0)?.trigger("click");
   await wrapper.get(".confirm").trigger("click");
+  await sleep(1000);
   expect(wrapper.get(".message").text()).toBe("Success");
   expect(wrapper.get(".order-code").text()).toBe("202400000001");
+  expect(wrapper.get(".order-total").text()).toBe("1030");
 });
 
 test("Deve ter 4 produtos", async () => {
