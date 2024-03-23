@@ -1,6 +1,8 @@
 import { mount } from "@vue/test-utils";
 import AppVue from "../src/App.vue";
 import CheckoutGatewayHttp from "../src/infra/gateway/CheckoutGatewayHttp";
+import CheckoutGateway from "../src/infra/gateway/CheckoutGateway";
+import Product from "../src/domain/Product";
 
 function sleep(time: number) {
   return new Promise((resolve) => {
@@ -127,7 +129,17 @@ test("Deve ter um pedido com vários itens e decrementar a quantidade do item do
 });
 
 test("Deve confirmar um pedido com 1 item", async () => {
-  const checkoutGateway = new CheckoutGatewayHttp();
+  const checkoutGateway: CheckoutGateway = {
+    async getProducts(): Promise<Product[]> {
+      return [{ idProduct: 4, description: "D", price: 1000 }];
+    },
+    async checkout(input: any): Promise<any> {
+      return {
+        code: "202400000001",
+        total: 1030,
+      };
+    },
+  };
   const wrapper = mount(AppVue, {
     global: {
       provide: {
@@ -144,7 +156,17 @@ test("Deve confirmar um pedido com 1 item", async () => {
 });
 
 test("Deve ter 4 produtos", async () => {
-  const checkoutGateway = new CheckoutGatewayHttp();
+  const checkoutGateway: CheckoutGateway = {
+    async getProducts(): Promise<Product[]> {
+      return [{ idProduct: 4, description: "D", price: 1000 }];
+    },
+    async checkout(input: any): Promise<any> {
+      return {
+        code: "202400000001",
+        total: 1030,
+      };
+    },
+  };
   const wrapper = mount(AppVue, {
     global: {
       provide: {
