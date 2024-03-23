@@ -3,6 +3,7 @@ import AppVue from "../src/App.vue";
 import CheckoutGatewayHttp from "../src/infra/gateway/CheckoutGatewayHttp";
 import CheckoutGateway from "../src/infra/gateway/CheckoutGateway";
 import Product from "../src/domain/Product";
+import AxiosAdapter from "../src/infra/http/AxiosAdapter";
 
 function sleep(time: number) {
   return new Promise((resolve) => {
@@ -13,7 +14,9 @@ function sleep(time: number) {
 }
 
 test("Deve ter um pedido vazio", async () => {
-  const checkoutGateway = new CheckoutGatewayHttp();
+  const httpClient = new AxiosAdapter();
+  const baseUrl = "http://localhost:3000";
+  const checkoutGateway = new CheckoutGatewayHttp(httpClient, baseUrl);
   const wrapper = mount(AppVue, {
     global: {
       provide: {
@@ -33,7 +36,9 @@ test("Deve ter um pedido vazio", async () => {
 });
 
 test("Deve ter um pedido com 1 item", async () => {
-  const checkoutGateway = new CheckoutGatewayHttp();
+  const httpClient = new AxiosAdapter();
+  const baseUrl = "http://localhost:3000";
+  const checkoutGateway = new CheckoutGatewayHttp(httpClient, baseUrl);
   const wrapper = mount(AppVue, {
     global: {
       provide: {
@@ -48,7 +53,9 @@ test("Deve ter um pedido com 1 item", async () => {
 });
 
 test("Deve ter um pedido com vários itens e quantidade acima de 1", async () => {
-  const checkoutGateway = new CheckoutGatewayHttp();
+  const httpClient = new AxiosAdapter();
+  const baseUrl = "http://localhost:3000";
+  const checkoutGateway = new CheckoutGatewayHttp(httpClient, baseUrl);
   const wrapper = mount(AppVue, {
     global: {
       provide: {
@@ -72,7 +79,9 @@ test("Deve ter um pedido com vários itens e quantidade acima de 1", async () =>
 });
 
 test("Deve ter um pedido com vários itens e decrementar a quantidade do item do pedido", async () => {
-  const checkoutGateway = new CheckoutGatewayHttp();
+  const httpClient = new AxiosAdapter();
+  const baseUrl = "http://localhost:3000";
+  const checkoutGateway = new CheckoutGatewayHttp(httpClient, baseUrl);
   const wrapper = mount(AppVue, {
     global: {
       provide: {
@@ -93,7 +102,9 @@ test("Deve ter um pedido com vários itens e decrementar a quantidade do item do
 });
 
 test("Deve ter um pedido com vários itens e incrementar a quantidade do item do pedido", async () => {
-  const checkoutGateway = new CheckoutGatewayHttp();
+  const httpClient = new AxiosAdapter();
+  const baseUrl = "http://localhost:3000";
+  const checkoutGateway = new CheckoutGatewayHttp(httpClient, baseUrl);
   const wrapper = mount(AppVue, {
     global: {
       provide: {
@@ -112,7 +123,9 @@ test("Deve ter um pedido com vários itens e incrementar a quantidade do item do
 });
 
 test("Deve ter um pedido com vários itens e decrementar a quantidade do item do pedido e nao permitir que a quantidade seja menor que zero", async () => {
-  const checkoutGateway = new CheckoutGatewayHttp();
+  const httpClient = new AxiosAdapter();
+  const baseUrl = "http://localhost:3000";
+  const checkoutGateway = new CheckoutGatewayHttp(httpClient, baseUrl);
   const wrapper = mount(AppVue, {
     global: {
       provide: {

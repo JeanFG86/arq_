@@ -1,11 +1,12 @@
 import Product from "../../domain/Product";
+import HttpClient from "../http/HttpClient";
 import CheckoutGateway from "./CheckoutGateway";
-import axios from "axios";
 
 export default class CheckoutGatewayHttp implements CheckoutGateway {
+  constructor(readonly httpClient: HttpClient, readonly baseUrl: string) {}
+
   async getProducts(): Promise<Product[]> {
-    const response = await axios.get("http://localhost:3000/products");
-    const productsData = response.data;
+    const productsData = await this.httpClient.get(`${this.baseUrl}/products`);
     const products: Product[] = [];
     for (const productData of productsData) {
       products.push(new Product(productData.idProduct, productData.description, productData.price));
@@ -14,7 +15,7 @@ export default class CheckoutGatewayHttp implements CheckoutGateway {
   }
 
   async checkout(input: any): Promise<any> {
-    const response = await axios.post("http://localhost:3000/checkout", input);
-    return response.data;
+    const output = await this.httpClient.post(`${this.baseUrl}/checkout`, input);
+    return output;
   }
 }
