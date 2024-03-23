@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref } from "vue";
-import axios from "axios";
+import { inject, onMounted, reactive, ref } from "vue";
 import Order from "./domain/Order";
-import CheckoutGatewayHttp from "./infra/gateway/CheckoutGatewayHttp";
+import CheckoutGateway from "./infra/gateway/CheckoutGateway";
 
 const products = reactive([
   { idProduct: 1, description: "A", price: 1000 },
@@ -22,7 +21,7 @@ const formatMoney = function (amount: number) {
   return new Intl.NumberFormat("en-IN", { style: "currency", currency: "USD" }).format(amount);
 };
 
-const checkoutGateway = new CheckoutGatewayHttp();
+const checkoutGateway = inject("checkoutGateway") as CheckoutGateway;
 
 const confirm = async function (order: any) {
   const orderData = await checkoutGateway.checkout(order);

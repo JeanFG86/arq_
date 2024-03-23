@@ -1,5 +1,6 @@
 import { mount } from "@vue/test-utils";
 import AppVue from "../src/App.vue";
+import CheckoutGatewayHttp from "../src/infra/gateway/CheckoutGatewayHttp";
 
 function sleep(time: number) {
   return new Promise((resolve) => {
@@ -10,7 +11,14 @@ function sleep(time: number) {
 }
 
 test("Deve ter um pedido vazio", async () => {
-  const wrapper = mount(AppVue, {});
+  const checkoutGateway = new CheckoutGatewayHttp();
+  const wrapper = mount(AppVue, {
+    global: {
+      provide: {
+        checkoutGateway,
+      },
+    },
+  });
 
   expect(wrapper.get(".title").text()).toBe("Checkout");
   expect(wrapper.findAll(".product-description").at(0)?.text()).toBe("A");
@@ -23,7 +31,14 @@ test("Deve ter um pedido vazio", async () => {
 });
 
 test("Deve ter um pedido com 1 item", async () => {
-  const wrapper = mount(AppVue, {});
+  const checkoutGateway = new CheckoutGatewayHttp();
+  const wrapper = mount(AppVue, {
+    global: {
+      provide: {
+        checkoutGateway,
+      },
+    },
+  });
   await wrapper.findAll(".product-add-button").at(0)?.trigger("click");
   expect(wrapper.get(".total").text()).toBe("$1,000.00");
   expect(wrapper.findAll(".item-description").at(0)?.text()).toBe("A");
@@ -31,7 +46,14 @@ test("Deve ter um pedido com 1 item", async () => {
 });
 
 test("Deve ter um pedido com vários itens e quantidade acima de 1", async () => {
-  const wrapper = mount(AppVue, {});
+  const checkoutGateway = new CheckoutGatewayHttp();
+  const wrapper = mount(AppVue, {
+    global: {
+      provide: {
+        checkoutGateway,
+      },
+    },
+  });
 
   await wrapper.findAll(".product-add-button").at(0)?.trigger("click");
   await wrapper.findAll(".product-add-button").at(1)?.trigger("click");
@@ -48,7 +70,14 @@ test("Deve ter um pedido com vários itens e quantidade acima de 1", async () =>
 });
 
 test("Deve ter um pedido com vários itens e decrementar a quantidade do item do pedido", async () => {
-  const wrapper = mount(AppVue, {});
+  const checkoutGateway = new CheckoutGatewayHttp();
+  const wrapper = mount(AppVue, {
+    global: {
+      provide: {
+        checkoutGateway,
+      },
+    },
+  });
 
   await wrapper.findAll(".product-add-button").at(0)?.trigger("click");
   await wrapper.findAll(".product-add-button").at(1)?.trigger("click");
@@ -62,7 +91,14 @@ test("Deve ter um pedido com vários itens e decrementar a quantidade do item do
 });
 
 test("Deve ter um pedido com vários itens e incrementar a quantidade do item do pedido", async () => {
-  const wrapper = mount(AppVue, {});
+  const checkoutGateway = new CheckoutGatewayHttp();
+  const wrapper = mount(AppVue, {
+    global: {
+      provide: {
+        checkoutGateway,
+      },
+    },
+  });
 
   await wrapper.findAll(".product-add-button").at(0)?.trigger("click");
   expect(wrapper.get(".total").text()).toBe("$1,000.00");
@@ -74,7 +110,14 @@ test("Deve ter um pedido com vários itens e incrementar a quantidade do item do
 });
 
 test("Deve ter um pedido com vários itens e decrementar a quantidade do item do pedido e nao permitir que a quantidade seja menor que zero", async () => {
-  const wrapper = mount(AppVue, {});
+  const checkoutGateway = new CheckoutGatewayHttp();
+  const wrapper = mount(AppVue, {
+    global: {
+      provide: {
+        checkoutGateway,
+      },
+    },
+  });
 
   await wrapper.findAll(".product-add-button").at(0)?.trigger("click");
   await wrapper.findAll(".item-decrease-button").at(0)?.trigger("click");
@@ -84,7 +127,14 @@ test("Deve ter um pedido com vários itens e decrementar a quantidade do item do
 });
 
 test("Deve confirmar um pedido com 1 item", async () => {
-  const wrapper = mount(AppVue, {});
+  const checkoutGateway = new CheckoutGatewayHttp();
+  const wrapper = mount(AppVue, {
+    global: {
+      provide: {
+        checkoutGateway,
+      },
+    },
+  });
   await wrapper.findAll(".product-add-button").at(0)?.trigger("click");
   await wrapper.get(".confirm").trigger("click");
   await sleep(1000);
@@ -94,7 +144,14 @@ test("Deve confirmar um pedido com 1 item", async () => {
 });
 
 test("Deve ter 4 produtos", async () => {
-  const wrapper = mount(AppVue, {});
+  const checkoutGateway = new CheckoutGatewayHttp();
+  const wrapper = mount(AppVue, {
+    global: {
+      provide: {
+        checkoutGateway,
+      },
+    },
+  });
 
   expect(wrapper.get(".title").text()).toBe("Checkout");
   await sleep(100);
