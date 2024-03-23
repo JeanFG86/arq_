@@ -2,6 +2,7 @@
 import { onMounted, reactive, ref } from "vue";
 import axios from "axios";
 import Order from "./domain/Order";
+import CheckoutGatewayHttp from "./infra/gateway/CheckoutGatewayHttp";
 
 const products = reactive([
   { idProduct: 1, description: "A", price: 1000 },
@@ -21,17 +22,17 @@ const formatMoney = function (amount: number) {
   return new Intl.NumberFormat("en-IN", { style: "currency", currency: "USD" }).format(amount);
 };
 
+const checkoutGateway = new CheckoutGatewayHttp();
+
 const confirm = async function (order: any) {
-  const response = await axios.post("http://localhost:3000/checkout", order);
-  const orderData = response.data;
+  const orderData = await checkoutGateway.checkout(order);
   message.value = "Success";
   order.code = orderData.code;
   order.total = orderData.total;
 };
 
 onMounted(async () => {
-  const response = await axios.get("http://localhost:3000/products");
-  const productsData = response.data;
+  const productsData = await checkoutGateway.getProducts();
   products.push(...productsData);
 });
 </script>

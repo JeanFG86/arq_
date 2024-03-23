@@ -19,6 +19,7 @@ test("Deve criar um pedido com vários itens iguais", function () {
   order.addItem(new Product(1, "A", 1000));
   order.addItem(new Product(1, "A", 1000));
   order.addItem(new Product(1, "A", 1000));
+  expect(order.getTotal()).toBe(3000);
   expect(order.items).toHaveLength(1);
   expect(order.items[0].quantity).toBe(3);
 });
