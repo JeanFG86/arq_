@@ -1,7 +1,7 @@
 import FreightCalculator from "../domain/entities/FreightCalculator";
 import ProductData from "../domain/data/ProductData";
 
-export default class SimulateFreight {
+export default class CalculateFreight {
   constructor(readonly productData: ProductData) {}
 
   async execute(input: Input): Promise<Output> {
