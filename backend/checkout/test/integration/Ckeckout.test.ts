@@ -252,10 +252,6 @@ describe("", () => {
     const checkout = new Checkout(productData, couponData, orderData, currencyGateway, mailer);
     const output = await checkout.execute(input);
     expect(output.total).toBe(6600);
-    // expect(log).toHaveLength(1);
-    // expect(log[0].to).toBe("rodrigo@branas.io");
-    // expect(log[0].subject).toBe("Checkout Success");
-    // expect(log[0].message).toBe("ABCDEF");
   });
 
   it("Deve fazer um pedido com 3 produtos com código do pedido", async function () {
