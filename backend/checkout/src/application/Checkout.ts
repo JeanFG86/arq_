@@ -8,7 +8,7 @@ import OrderData from "../domain/data/OrderData";
 import ProductData from "../domain/data/ProductData";
 import FreightCalculator from "../domain/entities/FreightCalculator";
 import ZipcodeData from "../domain/data/ZipcodeData";
-import DistanceCalculator from "../domain/entities/DistanceCalculator";
+import CalculateFreight from "./CalculateFreight";
 
 export default class Checkout {
   constructor(
@@ -21,21 +21,19 @@ export default class Checkout {
   ) {}
 
   async execute(input: Input) {
-    let distance;
-    if (input.from && input.to) {
-      const from = await this.zipcodeData.get(input.from);
-      const to = await this.zipcodeData.get(input.to);
-      if (from && to) {
-        distance = DistanceCalculator.calculate(from.coord, to.coord);
-      }
-    }
     const currencies = await this.currencyGateway.getCurrencies();
     const order = new Order(input.cpf);
     for (const item of input.items) {
       const product = await this.productData.getProduct(item.idProduct);
       order.addItem(product, item.quantity, product.currency, currencies.getCurrency(product.currency));
-      order.freight += FreightCalculator.calculate(product, distance) * item.quantity;
     }
+    const calculateFreight = new CalculateFreight(this.productData, this.zipcodeData);
+    const freight = await calculateFreight.execute({
+      from: input.from,
+      to: input.to,
+      items: input.items,
+    });
+    order.freight = freight.total;
     if (input.coupon) {
       const coupon = await this.couponData.getCoupon(input.coupon);
       order.addCoupon(coupon);

@@ -19,7 +19,7 @@ export default class CalculateFreight {
     for (const item of input.items) {
       const product = await this.productData.getProduct(item.idProduct);
       if (product) {
-        total += FreightCalculator.calculate(product, distance);
+        total += FreightCalculator.calculate(product, distance) * item.quantity;
       }
     }
     return {
