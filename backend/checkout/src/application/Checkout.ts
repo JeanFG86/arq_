@@ -6,6 +6,7 @@ import MailerConsole from "../infra/mailer/MailerConsole";
 import Order from "../domain/entities/Order";
 import OrderData from "../domain/data/OrderData";
 import ProductData from "../domain/data/ProductData";
+import FreightCalculator from "../domain/entities/FreightCalculator";
 
 export default class Checkout {
   constructor(
@@ -22,6 +23,7 @@ export default class Checkout {
     for (const item of input.items) {
       const product = await this.productData.getProduct(item.idProduct);
       order.addItem(product, item.quantity, product.currency, currencies.getCurrency(product.currency));
+      order.freight += FreightCalculator.calculate(product) * item.quantity;
     }
     if (input.coupon) {
       const coupon = await this.couponData.getCoupon(input.coupon);

@@ -58,7 +58,7 @@ describe("", () => {
     };
     const checkout = new Checkout(productData, couponData, orderData);
     const output = await checkout.execute(input);
-    expect(output.total).toBe(6350);
+    expect(output.total).toBe(6370);
   });
 
   it("Deve fazer um pedido com 4 produtos com moedas diferentes", async function () {
@@ -116,7 +116,7 @@ describe("", () => {
     };
     const checkout = new Checkout(productData, couponData, orderData);
     const output = await checkout.execute(input);
-    expect(output.total).toBe(6580);
+    expect(output.total).toBe(6600);
     // expect(mailerSpy.calledOnce).toBeTruthy();
     // expect(mailerSpy.calledWith("rodrigo@branas.io", "Checkout Success", "ABCDEF")).toBeTruthy();
     currencyGatewayStub.restore();
@@ -180,7 +180,7 @@ describe("", () => {
     };
     const checkout = new Checkout(productData, couponData, orderData);
     const output = await checkout.execute(input);
-    expect(output.total).toBe(6580);
+    expect(output.total).toBe(6600);
     // mailerMock.verify();
     // mailerMock.restore();
     currencyGatewayMock.verify();
@@ -251,7 +251,7 @@ describe("", () => {
     };
     const checkout = new Checkout(productData, couponData, orderData, currencyGateway, mailer);
     const output = await checkout.execute(input);
-    expect(output.total).toBe(6580);
+    expect(output.total).toBe(6600);
     // expect(log).toHaveLength(1);
     // expect(log[0].to).toBe("rodrigo@branas.io");
     // expect(log[0].subject).toBe("Checkout Success");

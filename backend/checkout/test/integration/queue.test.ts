@@ -29,7 +29,7 @@ describe("Queue Test", () => {
     const [returnValue] = checkoutSpy.returnValues;
     const output = await returnValue;
     expect(output.code).toBe("202400000001");
-    expect(output.total).toBe(6350);
+    expect(output.total).toBe(6370);
     checkoutSpy.restore();
   });
 });
