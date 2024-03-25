@@ -5,6 +5,7 @@ import CLIHandlerMemory from "../../src/infra/cli/CLIHandlerMemory";
 import CouponDataDatabase from "../../src/infra/data/CouponDataDatabase";
 import OrderDataDatabase from "../../src/infra/data/OrderDataDatabase";
 import ProductDataDatabase from "../../src/infra/data/ProductDataDatabase";
+import ZipcodeDataDatabase from "../../src/infra/data/ZipcodeDataDatabase";
 import PgPromiseConnection from "../../src/infra/database/PgPromiseConnection";
 import sinon from "sinon";
 
@@ -14,7 +15,8 @@ describe("CLI test", () => {
     const productData = new ProductDataDatabase(connection);
     const couponData = new CouponDataDatabase(connection);
     const orderData = new OrderDataDatabase(connection);
-    const checkout = new Checkout(productData, couponData, orderData);
+    const zipcodeData = new ZipcodeDataDatabase(connection);
+    const checkout = new Checkout(productData, couponData, orderData, zipcodeData);
     const checkoutSpy = sinon.spy(checkout, "execute");
     const handler = new CLIHandlerMemory();
     new CLIController(handler, checkout);

@@ -4,6 +4,7 @@ import OrderDataDatabase from "../../src/infra/data/OrderDataDatabase";
 import ProductDataDatabase from "../../src/infra/data/ProductDataDatabase";
 import Checkout from "../../src/application/Checkout";
 import PgPromiseConnection from "../../src/infra/database/PgPromiseConnection";
+import ZipcodeDataDatabase from "../../src/infra/data/ZipcodeDataDatabase";
 
 describe("GetOrder Tests", () => {
   it("Deve consultar um pedido", async () => {
@@ -11,7 +12,8 @@ describe("GetOrder Tests", () => {
     const productData = new ProductDataDatabase(connection);
     const couponData = new CouponDataDatabase(connection);
     const orderData = new OrderDataDatabase(connection);
-    const checkout = new Checkout(productData, couponData, orderData);
+    const zipcodeData = new ZipcodeDataDatabase(connection);
+    const checkout = new Checkout(productData, couponData, orderData, zipcodeData);
     const input = {
       cpf: "987.654.321-00",
       items: [

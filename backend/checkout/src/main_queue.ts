@@ -5,6 +5,7 @@ import OrderDataDatabase from "./infra/data/OrderDataDatabase";
 import PgPromiseConnection from "./infra/database/PgPromiseConnection";
 import QueueController from "./infra/queue/QueueController";
 import RabbitMQAdapter from "./infra/queue/RabbitMQAdapter";
+import ZipcodeDataDatabase from "./infra/data/ZipcodeDataDatabase";
 
 async function init() {
   const queue = new RabbitMQAdapter();
@@ -13,7 +14,8 @@ async function init() {
   const productData = new ProductDataDatabase(connection);
   const couponData = new CouponDataDatabase(connection);
   const orderData = new OrderDataDatabase(connection);
-  const checkout = new Checkout(productData, couponData, orderData);
+  const zipcodeData = new ZipcodeDataDatabase(connection);
+  const checkout = new Checkout(productData, couponData, orderData, zipcodeData);
   new QueueController(queue, checkout);
 }
 init();

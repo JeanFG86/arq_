@@ -6,6 +6,7 @@ import PgPromiseConnection from "../../src/infra/database/PgPromiseConnection";
 import QueueController from "../../src/infra/queue/QueueController";
 import sinon from "sinon";
 import QueueMemory from "../../src/infra/queue/QueueMemory";
+import ZipcodeDataDatabase from "../../src/infra/data/ZipcodeDataDatabase";
 
 describe("Queue Test", () => {
   it("Deve testar com a fila", async () => {
@@ -14,7 +15,8 @@ describe("Queue Test", () => {
     const productData = new ProductDataDatabase(connection);
     const couponData = new CouponDataDatabase(connection);
     const orderData = new OrderDataDatabase(connection);
-    const checkout = new Checkout(productData, couponData, orderData);
+    const zipcodeData = new ZipcodeDataDatabase(connection);
+    const checkout = new Checkout(productData, couponData, orderData, zipcodeData);
     const checkoutSpy = sinon.spy(checkout, "execute");
     new QueueController(queue, checkout);
     const input = {
