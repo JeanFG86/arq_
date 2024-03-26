@@ -1,3 +1,4 @@
+import CalculateFreight from "./application/CalculateFreight";
 import Checkout from "./application/Checkout";
 import CLIController from "./infra/cli/CLIController";
 import CLIHandlerNode from "./infra/cli/CLIHandlerNode";
@@ -12,7 +13,8 @@ const productData = new ProductDataDatabase(connection);
 const couponData = new CouponDataDatabase(connection);
 const orderData = new OrderDataDatabase(connection);
 const zipcodeData = new ZipcodeDataDatabase(connection);
-const checkout = new Checkout(productData, couponData, orderData, zipcodeData);
+const calculateFreight = new CalculateFreight(productData, zipcodeData);
+const checkout = new Checkout(productData, couponData, orderData, calculateFreight);
 const handler = new CLIHandlerNode();
 new CLIController(handler, checkout);
 handler.type("set-cpf 111.111.111-11");

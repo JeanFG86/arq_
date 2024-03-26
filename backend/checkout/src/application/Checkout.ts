@@ -6,8 +6,6 @@ import MailerConsole from "../infra/mailer/MailerConsole";
 import Order from "../domain/entities/Order";
 import OrderData from "../domain/data/OrderData";
 import ProductData from "../domain/data/ProductData";
-import FreightCalculator from "../domain/entities/FreightCalculator";
-import ZipcodeData from "../domain/data/ZipcodeData";
 import CalculateFreight from "./CalculateFreight";
 
 export default class Checkout {
@@ -15,7 +13,7 @@ export default class Checkout {
     readonly productData: ProductData,
     readonly couponData: CouponData,
     readonly orderData: OrderData,
-    readonly zipcodeData: ZipcodeData,
+    readonly calculateFreight: CalculateFreight,
     readonly currencyGateway: CurrencyGateway = new CurrencyGatewayRandom(),
     readonly mailer: Mailer = new MailerConsole()
   ) {}
@@ -27,8 +25,7 @@ export default class Checkout {
       const product = await this.productData.getProduct(item.idProduct);
       order.addItem(product, item.quantity, product.currency, currencies.getCurrency(product.currency));
     }
-    const calculateFreight = new CalculateFreight(this.productData, this.zipcodeData);
-    const freight = await calculateFreight.execute({
+    const freight = await this.calculateFreight.execute({
       from: input.from,
       to: input.to,
       items: input.items,

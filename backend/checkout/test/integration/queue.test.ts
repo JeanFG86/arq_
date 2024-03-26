@@ -7,6 +7,7 @@ import QueueController from "../../src/infra/queue/QueueController";
 import sinon from "sinon";
 import QueueMemory from "../../src/infra/queue/QueueMemory";
 import ZipcodeDataDatabase from "../../src/infra/data/ZipcodeDataDatabase";
+import CalculateFreight from "../../src/application/CalculateFreight";
 
 describe("Queue Test", () => {
   it("Deve testar com a fila", async () => {
@@ -16,7 +17,8 @@ describe("Queue Test", () => {
     const couponData = new CouponDataDatabase(connection);
     const orderData = new OrderDataDatabase(connection);
     const zipcodeData = new ZipcodeDataDatabase(connection);
-    const checkout = new Checkout(productData, couponData, orderData, zipcodeData);
+    const calculateFreight = new CalculateFreight(productData, zipcodeData);
+    const checkout = new Checkout(productData, couponData, orderData, calculateFreight);
     const checkoutSpy = sinon.spy(checkout, "execute");
     new QueueController(queue, checkout);
     const input = {

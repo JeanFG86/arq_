@@ -10,6 +10,7 @@ import Checkout from "../../src/application/Checkout";
 import Product from "../../src/domain/entities/Product";
 import ZipcodeData from "../../src/domain/data/ZipcodeData";
 import Zipcode from "../../src/domain/entities/Zipcode";
+import CalculateFreight from "../../src/application/CalculateFreight";
 
 describe("", () => {
   it("Deve fazer um pedido com 3 produtos", async function () {
@@ -68,7 +69,8 @@ describe("", () => {
         }
       },
     };
-    const checkout = new Checkout(productData, couponData, orderData, zipcodeData);
+    const calculateFreight = new CalculateFreight(productData, zipcodeData);
+    const checkout = new Checkout(productData, couponData, orderData, calculateFreight);
     const output = await checkout.execute(input);
     expect(output.total).toBe(6370);
   });
@@ -136,7 +138,8 @@ describe("", () => {
         }
       },
     };
-    const checkout = new Checkout(productData, couponData, orderData, zipcodeData);
+    const calculateFreight = new CalculateFreight(productData, zipcodeData);
+    const checkout = new Checkout(productData, couponData, orderData, calculateFreight);
     const output = await checkout.execute(input);
     expect(output.total).toBe(6600);
     // expect(mailerSpy.calledOnce).toBeTruthy();
@@ -210,7 +213,8 @@ describe("", () => {
         }
       },
     };
-    const checkout = new Checkout(productData, couponData, orderData, zipcodeData);
+    const calculateFreight = new CalculateFreight(productData, zipcodeData);
+    const checkout = new Checkout(productData, couponData, orderData, calculateFreight);
     const output = await checkout.execute(input);
     expect(output.total).toBe(6600);
     // mailerMock.verify();
@@ -291,7 +295,8 @@ describe("", () => {
         }
       },
     };
-    const checkout = new Checkout(productData, couponData, orderData, zipcodeData);
+    const calculateFreight = new CalculateFreight(productData, zipcodeData);
+    const checkout = new Checkout(productData, couponData, orderData, calculateFreight);
     const output = await checkout.execute(input);
     expect(output.total).toBe(6700);
   });
@@ -351,7 +356,8 @@ describe("", () => {
         }
       },
     };
-    const checkout = new Checkout(productData, couponData, orderData, zipcodeData);
+    const calculateFreight = new CalculateFreight(productData, zipcodeData);
+    const checkout = new Checkout(productData, couponData, orderData, calculateFreight);
     const output = await checkout.execute(input);
     expect(output.code).toBe("202400000001");
   });
@@ -414,7 +420,8 @@ describe("", () => {
         }
       },
     };
-    const checkout = new Checkout(productData, couponData, orderData, zipcodeData);
+    const calculateFreight = new CalculateFreight(productData, zipcodeData);
+    const checkout = new Checkout(productData, couponData, orderData, calculateFreight);
     const output = await checkout.execute(input);
     expect(output.total).toBe(6307.06);
   });
