@@ -1,14 +1,12 @@
-import CalculateFreight from "../../src/application/CalculateFreight";
 import Checkout from "../../src/application/Checkout";
 import CLIController from "../../src/infra/cli/CLIController";
-import CLIHandler from "../../src/infra/cli/CLIHandler";
 import CLIHandlerMemory from "../../src/infra/cli/CLIHandlerMemory";
 import CouponDataDatabase from "../../src/infra/data/CouponDataDatabase";
 import OrderDataDatabase from "../../src/infra/data/OrderDataDatabase";
 import ProductDataDatabase from "../../src/infra/data/ProductDataDatabase";
-import ZipcodeDataDatabase from "../../src/infra/data/ZipcodeDataDatabase";
 import PgPromiseConnection from "../../src/infra/database/PgPromiseConnection";
 import sinon from "sinon";
+import FreightGatewayHttp from "../../src/infra/gateway/FreightGatewayHttp";
 
 describe("CLI test", () => {
   it("Deve testar o cli", async () => {
@@ -16,9 +14,8 @@ describe("CLI test", () => {
     const productData = new ProductDataDatabase(connection);
     const couponData = new CouponDataDatabase(connection);
     const orderData = new OrderDataDatabase(connection);
-    const zipcodeData = new ZipcodeDataDatabase(connection);
-    const calculateFreight = new CalculateFreight(productData, zipcodeData);
-    const checkout = new Checkout(productData, couponData, orderData, calculateFreight);
+    const freightGateway = new FreightGatewayHttp();
+    const checkout = new Checkout(productData, couponData, orderData, freightGateway);
     const checkoutSpy = sinon.spy(checkout, "execute");
     const handler = new CLIHandlerMemory();
     new CLIController(handler, checkout);
