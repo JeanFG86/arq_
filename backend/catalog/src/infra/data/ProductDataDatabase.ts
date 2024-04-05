@@ -19,4 +19,23 @@ export default class ProductDataDatabase implements ProductData {
       productData.currency
     );
   }
+
+  async getProducts(): Promise<Product[]> {
+    const productsData = await this.connection.query("select * from jg.product", []);
+    const products = [];
+    for (const productData of productsData) {
+      const product = new Product(
+        productData.id_product,
+        productData.description,
+        parseFloat(productData.price),
+        productData.width,
+        productData.height,
+        productData.length,
+        productData.weight,
+        productData.currency
+      );
+      products.push(product);
+    }
+    return products;
+  }
 }
