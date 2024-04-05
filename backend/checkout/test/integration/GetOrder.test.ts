@@ -1,19 +1,19 @@
 import CouponDataDatabase from "../../src/infra/data/CouponDataDatabase";
 import GetOrderByCpf from "../../src/application/GetOrderByCpf";
 import OrderDataDatabase from "../../src/infra/data/OrderDataDatabase";
-import ProductDataDatabase from "../../src/infra/data/ProductDataDatabase";
 import Checkout from "../../src/application/Checkout";
 import PgPromiseConnection from "../../src/infra/database/PgPromiseConnection";
 import FreightGatewayHttp from "../../src/infra/gateway/FreightGatewayHttp";
+import CatalogGatewayHttp from "../../src/infra/gateway/CatalogGatewayHttp";
 
 describe("GetOrder Tests", () => {
   it("Deve consultar um pedido", async () => {
     const connection = new PgPromiseConnection();
-    const productData = new ProductDataDatabase(connection);
     const couponData = new CouponDataDatabase(connection);
     const orderData = new OrderDataDatabase(connection);
     const freightGateway = new FreightGatewayHttp();
-    const checkout = new Checkout(productData, couponData, orderData, freightGateway);
+    const catalgoGateway = new CatalogGatewayHttp();
+    const checkout = new Checkout(catalgoGateway, couponData, orderData, freightGateway);
     const input = {
       cpf: "987.654.321-00",
       items: [

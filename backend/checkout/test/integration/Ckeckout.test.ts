@@ -9,6 +9,7 @@ import Currencies from "../../src/domain/entities/Currencies";
 import Checkout from "../../src/application/Checkout";
 import Product from "../../src/domain/entities/Product";
 import FreightGatewayHttp from "../../src/infra/gateway/FreightGatewayHttp";
+import CatalogGatewayHttp from "../../src/infra/gateway/CatalogGatewayHttp";
 
 describe("", () => {
   it("Deve fazer um pedido com 3 produtos", async function () {
@@ -58,7 +59,8 @@ describe("", () => {
       },
     };
     const freightGateway = new FreightGatewayHttp();
-    const checkout = new Checkout(productData, couponData, orderData, freightGateway);
+    const catalgoGateway = new CatalogGatewayHttp();
+    const checkout = new Checkout(catalgoGateway, couponData, orderData, freightGateway);
     const output = await checkout.execute(input);
     expect(output.total).toBe(6370);
   });
@@ -78,19 +80,6 @@ describe("", () => {
         { idProduct: 3, quantity: 3 },
         { idProduct: 4, quantity: 1 },
       ],
-    };
-    // const productData = new ProductDataDatabase();
-    // const couponData = new CouponDataDatabase();
-    const productData: ProductData = {
-      async getProduct(idProduct: number): Promise<Product> {
-        const products: { [idProduct: number]: Product } = {
-          1: new Product(1, "A", 1000, 100, 30, 10, 3, "BRL"),
-          2: new Product(2, "B", 5000, 50, 50, 50, 22, "BRL"),
-          3: new Product(3, "C", 30, 10, 10, 10, 0.9, "BRL"),
-          4: new Product(4, "D", 100, 100, 30, 10, 3, "USD"),
-        };
-        return products[idProduct];
-      },
     };
     const couponData: CouponData = {
       async getCoupon(code: string): Promise<any> {
@@ -117,7 +106,8 @@ describe("", () => {
       },
     };
     const freightGateway = new FreightGatewayHttp();
-    const checkout = new Checkout(productData, couponData, orderData, freightGateway);
+    const catalgoGateway = new CatalogGatewayHttp();
+    const checkout = new Checkout(catalgoGateway, couponData, orderData, freightGateway);
     const output = await checkout.execute(input);
     expect(output.total).toBe(6600);
     // expect(mailerSpy.calledOnce).toBeTruthy();
@@ -144,19 +134,6 @@ describe("", () => {
         { idProduct: 4, quantity: 1 },
       ],
     };
-    // const productData = new ProductDataDatabase();
-    // const couponData = new CouponDataDatabase();
-    const productData: ProductData = {
-      async getProduct(idProduct: number): Promise<Product> {
-        const products: { [idProduct: number]: Product } = {
-          1: new Product(1, "A", 1000, 100, 30, 10, 3, "BRL"),
-          2: new Product(2, "B", 5000, 50, 50, 50, 22, "BRL"),
-          3: new Product(3, "C", 30, 10, 10, 10, 0.9, "BRL"),
-          4: new Product(4, "D", 100, 100, 30, 10, 3, "USD"),
-        };
-        return products[idProduct];
-      },
-    };
     const couponData: CouponData = {
       async getCoupon(code: string): Promise<any> {
         const coupons: any = {
@@ -182,7 +159,8 @@ describe("", () => {
       },
     };
     const freightGateway = new FreightGatewayHttp();
-    const checkout = new Checkout(productData, couponData, orderData, freightGateway);
+    const catalgoGateway = new CatalogGatewayHttp();
+    const checkout = new Checkout(catalgoGateway, couponData, orderData, freightGateway);
     const output = await checkout.execute(input);
     expect(output.total).toBe(6600);
     // mailerMock.verify();
@@ -254,7 +232,8 @@ describe("", () => {
       },
     };
     const freightGateway = new FreightGatewayHttp();
-    const checkout = new Checkout(productData, couponData, orderData, freightGateway);
+    const catalgoGateway = new CatalogGatewayHttp();
+    const checkout = new Checkout(catalgoGateway, couponData, orderData, freightGateway);
     const output = await checkout.execute(input);
     expect(output.total).toBe(6700);
   });
@@ -305,7 +284,8 @@ describe("", () => {
       },
     };
     const freightGateway = new FreightGatewayHttp();
-    const checkout = new Checkout(productData, couponData, orderData, freightGateway);
+    const catalgoGateway = new CatalogGatewayHttp();
+    const checkout = new Checkout(catalgoGateway, couponData, orderData, freightGateway);
     const output = await checkout.execute(input);
     expect(output.code).toBe("202400000001");
   });
@@ -359,7 +339,8 @@ describe("", () => {
       },
     };
     const freightGateway = new FreightGatewayHttp();
-    const checkout = new Checkout(productData, couponData, orderData, freightGateway);
+    const catalgoGateway = new CatalogGatewayHttp();
+    const checkout = new Checkout(catalgoGateway, couponData, orderData, freightGateway);
     const output = await checkout.execute(input);
     expect(output.total).toBe(6307.06);
   });
