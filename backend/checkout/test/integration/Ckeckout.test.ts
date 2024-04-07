@@ -12,19 +12,10 @@ import FreightGatewayHttp from "../../src/infra/gateway/FreightGatewayHttp";
 import CatalogGatewayHttp from "../../src/infra/gateway/CatalogGatewayHttp";
 
 describe("", () => {
-  it("Deve fazer um pedido com 3 produtos", async function () {
-    const input = {
-      cpf: "987.654.321-00",
-      items: [
-        { idProduct: 1, quantity: 1 },
-        { idProduct: 2, quantity: 1 },
-        { idProduct: 3, quantity: 3 },
-      ],
-    };
-    // const productData = new ProductDataDatabase();
-    // const couponData = new CouponDataDatabase();
+  let checkout: Checkout;
+  beforeEach(function () {
     const productData: ProductData = {
-      async getProduct(idProduct: number): Promise<Product> {
+      async getProduct(idProduct: number): Promise<any> {
         const products: { [idProduct: number]: Product } = {
           1: new Product(1, "A", 1000, 100, 30, 10, 3, "BRL"),
           2: new Product(2, "B", 5000, 50, 50, 50, 22, "BRL"),
@@ -37,16 +28,8 @@ describe("", () => {
     const couponData: CouponData = {
       async getCoupon(code: string): Promise<any> {
         const coupons: any = {
-          VALE20: {
-            code: "VALE20",
-            percentage: 20,
-            expire_date: new Date("2022-12-01T10:00:00"),
-          },
-          VALE20_EXPIRED: {
-            code: "VALE20_EXPIRED",
-            percentage: 20,
-            expire_date: new Date("2022-10-01T10:00:00"),
-          },
+          VALE20: { code: "VALE20", percentage: 20, expire_date: new Date("2023-12-01T10:00:00") },
+          VALE20_EXPIRED: { code: "VALE20_EXPIRED", percentage: 20, expire_date: new Date("2022-10-01T10:00:00") },
         };
         return coupons[code];
       },
@@ -55,12 +38,24 @@ describe("", () => {
       async save(order: any): Promise<void> {},
       async getByCpf(cpf: string): Promise<any> {},
       async count(): Promise<number> {
-        return 1;
+        return 0;
       },
+      async clean(): Promise<void> {},
     };
     const freightGateway = new FreightGatewayHttp();
-    const catalgoGateway = new CatalogGatewayHttp();
-    const checkout = new Checkout(catalgoGateway, couponData, orderData, freightGateway);
+    const catalogGateway = new CatalogGatewayHttp();
+    checkout = new Checkout(catalogGateway, couponData, orderData, freightGateway);
+  });
+
+  it("Deve fazer um pedido com 3 produtos", async function () {
+    const input = {
+      cpf: "987.654.321-00",
+      items: [
+        { idProduct: 1, quantity: 1 },
+        { idProduct: 2, quantity: 1 },
+        { idProduct: 3, quantity: 3 },
+      ],
+    };
     const output = await checkout.execute(input);
     expect(output.total).toBe(6370);
   });
@@ -81,37 +76,8 @@ describe("", () => {
         { idProduct: 4, quantity: 1 },
       ],
     };
-    const couponData: CouponData = {
-      async getCoupon(code: string): Promise<any> {
-        const coupons: any = {
-          VALE20: {
-            code: "VALE20",
-            percentage: 20,
-            expire_date: new Date("2022-12-01T10:00:00"),
-          },
-          VALE20_EXPIRED: {
-            code: "VALE20_EXPIRED",
-            percentage: 20,
-            expire_date: new Date("2022-10-01T10:00:00"),
-          },
-        };
-        return coupons[code];
-      },
-    };
-    const orderData: OrderData = {
-      async save(order: any): Promise<void> {},
-      async getByCpf(cpf: string): Promise<any> {},
-      async count(): Promise<number> {
-        return 1;
-      },
-    };
-    const freightGateway = new FreightGatewayHttp();
-    const catalgoGateway = new CatalogGatewayHttp();
-    const checkout = new Checkout(catalgoGateway, couponData, orderData, freightGateway);
     const output = await checkout.execute(input);
     expect(output.total).toBe(6600);
-    // expect(mailerSpy.calledOnce).toBeTruthy();
-    // expect(mailerSpy.calledWith("rodrigo@branas.io", "Checkout Success", "ABCDEF")).toBeTruthy();
     currencyGatewayStub.restore();
     mailerSpy.restore();
   });
@@ -134,37 +100,8 @@ describe("", () => {
         { idProduct: 4, quantity: 1 },
       ],
     };
-    const couponData: CouponData = {
-      async getCoupon(code: string): Promise<any> {
-        const coupons: any = {
-          VALE20: {
-            code: "VALE20",
-            percentage: 20,
-            expire_date: new Date("2022-12-01T10:00:00"),
-          },
-          VALE20_EXPIRED: {
-            code: "VALE20_EXPIRED",
-            percentage: 20,
-            expire_date: new Date("2022-10-01T10:00:00"),
-          },
-        };
-        return coupons[code];
-      },
-    };
-    const orderData: OrderData = {
-      async save(order: any): Promise<void> {},
-      async getByCpf(cpf: string): Promise<any> {},
-      async count(): Promise<number> {
-        return 1;
-      },
-    };
-    const freightGateway = new FreightGatewayHttp();
-    const catalgoGateway = new CatalogGatewayHttp();
-    const checkout = new Checkout(catalgoGateway, couponData, orderData, freightGateway);
     const output = await checkout.execute(input);
     expect(output.total).toBe(6600);
-    // mailerMock.verify();
-    // mailerMock.restore();
     currencyGatewayMock.verify();
     currencyGatewayMock.restore();
   });
@@ -180,60 +117,9 @@ describe("", () => {
         { idProduct: 4, quantity: 1 },
       ],
     };
-    // const productData = new ProductDataDatabase();
-    // const couponData = new CouponDataDatabase();
-    const productData: ProductData = {
-      async getProduct(idProduct: number): Promise<Product> {
-        const products: { [idProduct: number]: Product } = {
-          1: new Product(1, "A", 1000, 100, 30, 10, 3, "BRL"),
-          2: new Product(2, "B", 5000, 50, 50, 50, 22, "BRL"),
-          3: new Product(3, "C", 30, 10, 10, 10, 0.9, "BRL"),
-          4: new Product(4, "D", 100, 100, 30, 10, 3, "USD"),
-        };
-        return products[idProduct];
-      },
-    };
-    const couponData: CouponData = {
-      async getCoupon(code: string): Promise<any> {
-        const coupons: any = {
-          VALE20: {
-            code: "VALE20",
-            percentage: 20,
-            expire_date: new Date("2022-12-01T10:00:00"),
-          },
-          VALE20_EXPIRED: {
-            code: "VALE20_EXPIRED",
-            percentage: 20,
-            expire_date: new Date("2022-10-01T10:00:00"),
-          },
-        };
-        return coupons[code];
-      },
-    };
     const currencies = new Currencies();
     currencies.addCurrency("USD", 2);
     currencies.addCurrency("BRL", 1);
-    const currencyGateway: CurrencyGateway = {
-      async getCurrencies(): Promise<any> {
-        return currencies;
-      },
-    };
-    const log: { to: string; subject: string; message: string }[] = [];
-    const mailer: Mailer = {
-      async send(to: string, subject: string, message: string): Promise<any> {
-        log.push({ to, subject, message });
-      },
-    };
-    const orderData: OrderData = {
-      async save(order: any): Promise<void> {},
-      async getByCpf(cpf: string): Promise<any> {},
-      async count(): Promise<number> {
-        return 1;
-      },
-    };
-    const freightGateway = new FreightGatewayHttp();
-    const catalgoGateway = new CatalogGatewayHttp();
-    const checkout = new Checkout(catalgoGateway, couponData, orderData, freightGateway);
     const output = await checkout.execute(input);
     expect(output.total).toBe(6700);
   });
@@ -247,45 +133,6 @@ describe("", () => {
         { idProduct: 3, quantity: 3 },
       ],
     };
-    // const productData = new ProductDataDatabase();
-    // const couponData = new CouponDataDatabase();
-    const productData: ProductData = {
-      async getProduct(idProduct: number): Promise<Product> {
-        const products: { [idProduct: number]: Product } = {
-          1: new Product(1, "A", 1000, 100, 30, 10, 3, "BRL"),
-          2: new Product(2, "B", 5000, 50, 50, 50, 22, "BRL"),
-          3: new Product(3, "C", 30, 10, 10, 10, 0.9, "BRL"),
-        };
-        return products[idProduct];
-      },
-    };
-    const couponData: CouponData = {
-      async getCoupon(code: string): Promise<any> {
-        const coupons: any = {
-          VALE20: {
-            code: "VALE20",
-            percentage: 20,
-            expire_date: new Date("2022-12-01T10:00:00"),
-          },
-          VALE20_EXPIRED: {
-            code: "VALE20_EXPIRED",
-            percentage: 20,
-            expire_date: new Date("2022-10-01T10:00:00"),
-          },
-        };
-        return coupons[code];
-      },
-    };
-    const orderData: OrderData = {
-      async save(order: any): Promise<void> {},
-      async getByCpf(cpf: string): Promise<any> {},
-      async count(): Promise<number> {
-        return 0;
-      },
-    };
-    const freightGateway = new FreightGatewayHttp();
-    const catalgoGateway = new CatalogGatewayHttp();
-    const checkout = new Checkout(catalgoGateway, couponData, orderData, freightGateway);
     const output = await checkout.execute(input);
     expect(output.code).toBe("202400000001");
   });
@@ -301,46 +148,6 @@ describe("", () => {
         { idProduct: 3, quantity: 3 },
       ],
     };
-    // const productData = new ProductDataDatabase();
-    // const couponData = new CouponDataDatabase();
-    const productData: ProductData = {
-      async getProduct(idProduct: number): Promise<Product> {
-        const products: { [idProduct: number]: Product } = {
-          1: new Product(1, "A", 1000, 100, 30, 10, 3, "BRL"),
-          2: new Product(2, "B", 5000, 50, 50, 50, 22, "BRL"),
-          3: new Product(3, "C", 30, 10, 10, 10, 0.9, "BRL"),
-          4: new Product(4, "D", 100, 100, 30, 10, 3, "USD"),
-        };
-        return products[idProduct];
-      },
-    };
-    const couponData: CouponData = {
-      async getCoupon(code: string): Promise<any> {
-        const coupons: any = {
-          VALE20: {
-            code: "VALE20",
-            percentage: 20,
-            expire_date: new Date("2022-12-01T10:00:00"),
-          },
-          VALE20_EXPIRED: {
-            code: "VALE20_EXPIRED",
-            percentage: 20,
-            expire_date: new Date("2022-10-01T10:00:00"),
-          },
-        };
-        return coupons[code];
-      },
-    };
-    const orderData: OrderData = {
-      async save(order: any): Promise<void> {},
-      async getByCpf(cpf: string): Promise<any> {},
-      async count(): Promise<number> {
-        return 1;
-      },
-    };
-    const freightGateway = new FreightGatewayHttp();
-    const catalgoGateway = new CatalogGatewayHttp();
-    const checkout = new Checkout(catalgoGateway, couponData, orderData, freightGateway);
     const output = await checkout.execute(input);
     expect(output.total).toBe(6307.06);
   });
