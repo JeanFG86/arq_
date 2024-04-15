@@ -4,8 +4,12 @@ import Connection from "../database/Connection";
 
 export default class StockEntryRepositoryDatabase implements StockEntryRepository {
   constructor(readonly connection: Connection) {}
-  save(stockEntry: StockEntry): Promise<void> {
-    throw new Error("Method not implemented.");
+  async save(stockEntry: StockEntry): Promise<void> {
+    await this.connection.query("insert into jg.stock_entry (id_product, operation, quantity) values ($1, $2, $3)", [
+      stockEntry.idProduct,
+      stockEntry.operation,
+      stockEntry.quantity,
+    ]);
   }
   async getByIdProduct(idProduct: number): Promise<StockEntry[]> {
     const stockEntriesData = await this.connection.query("select * from jg.stock_entry where id_product = $1", [
@@ -17,7 +21,7 @@ export default class StockEntryRepositoryDatabase implements StockEntryRepositor
     }
     return stockEntries;
   }
-  clean(): Promise<void> {
-    throw new Error("Method not implemented.");
+  async clean(): Promise<void> {
+    await this.connection.query("delete from jg.stock_entry", []);
   }
 }
