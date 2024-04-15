@@ -60,3 +60,10 @@ create table jg.zipcode(
 );
 insert into jg.zipcode (code, street, neighborhood, lat, long) values ('22030060', '', '', -27.5945, -48.5477);
 insert into jg.zipcode (code, street, neighborhood, lat, long) values ('88015600', '', '', -22.9129, -43.2003);
+
+create table jg.stock_entry (
+	id_stock_entry serial primary key,
+	id_product integer references jg.product (id_product),
+	operation text,
+	quantity integer
+);
