@@ -1,0 +1,17 @@
+import axios from "axios";
+
+describe("", () => {
+  it("deve testar a api de estoque", async () => {
+    await axios.post("http://localhost:3003/cleanStock");
+    const response1 = await axios.post("http://localhost:3003/calculateStock", { idProduct: 1 });
+    const output1 = response1.data;
+    expect(output1.total).toBe(0);
+    const input1 = {
+      items: [{ idProduct: 1, quantity: 10 }],
+    };
+    await axios.post("http://localhost:3003/increaseStock", input1);
+    const response2 = await axios.post("http://localhost:3003/calculateStock", { idProduct: 1 });
+    const output2 = response2.data;
+    expect(output2.total).toBe(10);
+  });
+});
