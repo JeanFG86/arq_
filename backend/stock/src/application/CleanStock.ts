@@ -1,4 +1,3 @@
-import StockCalculator from "../domain/entities/StockCalculator";
 import StockEntryRepository from "../domain/repository/StockEntryRepository";
 
 export default class CleanStock {
