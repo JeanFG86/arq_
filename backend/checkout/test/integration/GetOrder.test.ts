@@ -5,6 +5,7 @@ import Checkout from "../../src/application/Checkout";
 import PgPromiseConnection from "../../src/infra/database/PgPromiseConnection";
 import FreightGatewayHttp from "../../src/infra/gateway/FreightGatewayHttp";
 import CatalogGatewayHttp from "../../src/infra/gateway/CatalogGatewayHttp";
+import StockGatewayHttp from "../../src/infra/gateway/StockGatewayHttp";
 
 describe("GetOrder Tests", () => {
   it("Deve consultar um pedido", async () => {
