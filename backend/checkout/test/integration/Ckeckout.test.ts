@@ -10,6 +10,7 @@ import Checkout from "../../src/application/Checkout";
 import Product from "../../src/domain/entities/Product";
 import FreightGatewayHttp from "../../src/infra/gateway/FreightGatewayHttp";
 import CatalogGatewayHttp from "../../src/infra/gateway/CatalogGatewayHttp";
+import StockGatewayHttp from "../../src/infra/gateway/StockGatewayHttp";
 
 describe("", () => {
   let checkout: Checkout;
@@ -44,7 +45,8 @@ describe("", () => {
     };
     const freightGateway = new FreightGatewayHttp();
     const catalogGateway = new CatalogGatewayHttp();
-    checkout = new Checkout(catalogGateway, couponData, orderData, freightGateway);
+    const stockGateway = new StockGatewayHttp();
+    checkout = new Checkout(catalogGateway, couponData, orderData, freightGateway, stockGateway);
   });
 
   it("Deve fazer um pedido com 3 produtos", async function () {

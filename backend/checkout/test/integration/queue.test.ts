@@ -7,6 +7,7 @@ import sinon from "sinon";
 import QueueMemory from "../../src/infra/queue/QueueMemory";
 import FreightGatewayHttp from "../../src/infra/gateway/FreightGatewayHttp";
 import CatalogGatewayHttp from "../../src/infra/gateway/CatalogGatewayHttp";
+import StockGatewayHttp from "../../src/infra/gateway/StockGatewayHttp";
 
 describe("Queue Test", () => {
   it("Deve testar com a fila", async () => {
@@ -16,7 +17,8 @@ describe("Queue Test", () => {
     const orderData = new OrderDataDatabase(connection);
     const freightGateway = new FreightGatewayHttp();
     const catalgoGateway = new CatalogGatewayHttp();
-    const checkout = new Checkout(catalgoGateway, couponData, orderData, freightGateway);
+    const stockGateway = new StockGatewayHttp();
+    const checkout = new Checkout(catalgoGateway, couponData, orderData, freightGateway, stockGateway);
     const checkoutSpy = sinon.spy(checkout, "execute");
     new QueueController(queue, checkout);
     const input = {

@@ -13,7 +13,8 @@ describe("GetOrder Tests", () => {
     const orderData = new OrderDataDatabase(connection);
     const freightGateway = new FreightGatewayHttp();
     const catalgoGateway = new CatalogGatewayHttp();
-    const checkout = new Checkout(catalgoGateway, couponData, orderData, freightGateway);
+    const stockGateway = new StockGatewayHttp();
+    const checkout = new Checkout(catalgoGateway, couponData, orderData, freightGateway, stockGateway);
     const input = {
       cpf: "987.654.321-00",
       items: [

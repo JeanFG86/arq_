@@ -1,12 +1,11 @@
 import CouponData from "../domain/data/CouponData";
 import CurrencyGatewayRandom from "../infra/gateway/CurrencyGatewayRandom";
 import CurrencyGateway from "../infra/gateway/CurrencyGeteway";
-import Mailer from "../infra/mailer/Mailer";
-import MailerConsole from "../infra/mailer/MailerConsole";
 import Order from "../domain/entities/Order";
 import OrderData from "../domain/data/OrderData";
 import FreightGateway from "../infra/gateway/FreightGateway";
 import CatalogGateway from "../infra/gateway/CatalogGateway";
+import StockGateway from "../infra/gateway/StockGateway";
 
 export default class Checkout {
   constructor(
@@ -14,8 +13,8 @@ export default class Checkout {
     readonly couponData: CouponData,
     readonly orderData: OrderData,
     readonly freightGateway: FreightGateway,
-    readonly currencyGateway: CurrencyGateway = new CurrencyGatewayRandom(),
-    readonly mailer: Mailer = new MailerConsole()
+    readonly stockGateway: StockGateway,
+    readonly currencyGateway: CurrencyGateway = new CurrencyGatewayRandom()
   ) {}
 
   async execute(input: Input) {
@@ -34,6 +33,7 @@ export default class Checkout {
       order.addCoupon(coupon);
     }
     await this.orderData.save(order);
+    await this.stockGateway.decreaseStock(input);
     return { code: order.getOrderCode(), total: order.getTotal() };
   }
 }

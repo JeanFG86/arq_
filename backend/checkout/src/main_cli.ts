@@ -6,13 +6,15 @@ import OrderDataDatabase from "./infra/data/OrderDataDatabase";
 import PgPromiseConnection from "./infra/database/PgPromiseConnection";
 import CatalogGatewayHttp from "./infra/gateway/CatalogGatewayHttp";
 import FreightGatewayHttp from "./infra/gateway/FreightGatewayHttp";
+import StockGatewayHttp from "./infra/gateway/StockGatewayHttp";
 
 const connection = new PgPromiseConnection();
 const couponData = new CouponDataDatabase(connection);
 const orderData = new OrderDataDatabase(connection);
 const freightGateway = new FreightGatewayHttp();
 const catalgoGateway = new CatalogGatewayHttp();
-const checkout = new Checkout(catalgoGateway, couponData, orderData, freightGateway);
+const stockGateway = new StockGatewayHttp();
+const checkout = new Checkout(catalgoGateway, couponData, orderData, freightGateway, stockGateway);
 const handler = new CLIHandlerNode();
 new CLIController(handler, checkout);
 handler.type("set-cpf 111.111.111-11");
