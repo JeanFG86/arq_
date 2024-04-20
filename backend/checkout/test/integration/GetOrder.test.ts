@@ -27,7 +27,7 @@ describe("GetOrder Tests", () => {
     await checkout.execute(input);
     const getOrderByCpf = new GetOrderByCpf(orderData);
     const output = await getOrderByCpf.execute("987.654.321-00");
-    expect(output.total).toBe(6350);
+    expect(output.total).toBe(6370);
     await connection.close();
   });
 });
