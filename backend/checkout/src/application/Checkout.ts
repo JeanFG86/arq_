@@ -6,6 +6,8 @@ import OrderData from "../domain/data/OrderData";
 import FreightGateway from "../infra/gateway/FreightGateway";
 import CatalogGateway from "../infra/gateway/CatalogGateway";
 import StockGateway from "../infra/gateway/StockGateway";
+import Queue from "../infra/queue/Queue";
+import QueueMemory from "../infra/queue/QueueMemory";
 
 export default class Checkout {
   constructor(
@@ -14,6 +16,7 @@ export default class Checkout {
     readonly orderData: OrderData,
     readonly freightGateway: FreightGateway,
     readonly stockGateway: StockGateway,
+    readonly queue: Queue = new QueueMemory(),
     readonly currencyGateway: CurrencyGateway = new CurrencyGatewayRandom()
   ) {}
 
@@ -33,7 +36,12 @@ export default class Checkout {
       order.addCoupon(coupon);
     }
     await this.orderData.save(order);
-    await this.stockGateway.decreaseStock(input);
+    //opcao 1
+    //await this.stockGateway.decreaseStock(input);
+    //opcao 2
+    //await this.queue.publish("decreaseStock", input);
+    //opcao 3
+    await this.queue.publish("orderPlaced", input);
     return { code: order.getOrderCode(), total: order.getTotal() };
   }
 }
